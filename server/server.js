@@ -14,6 +14,21 @@ Restivus.configure({
 // /api/docs/:id for Docs collection
 Restivus.addCollection(Docs);
 
+Restivus.addRoute('docs/type/:_type', {authRequired: false}, {
+  get: function () {
+    var _docs = Docs.find({type:this.urlParams._type}).fetch()
+    if (_docs) {
+      return {
+      	status: 'success',
+      	data: _docs};
+    }
+    return {
+      statusCode: 404,
+      body: {status: 'fail', message: 'Messages not found'}
+    };
+  }
+});
+
 
 // // Maps to: /api/docs/:id
 // Restivus.addRoute('docs/:id', {authRequired: false}, {
